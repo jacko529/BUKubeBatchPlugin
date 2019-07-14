@@ -11,7 +11,6 @@ import (
 	"github.com/kubernetes-sigs/kube-batch/pkg/scheduler/util"
 	"math"
 	"StrConv"
-	v1 "k8s.io/api/core/v1"
 
 	)
 
@@ -52,7 +51,6 @@ func letsSee()  {
 		initResreq := JobInfoFunctionAccess.Clone(pod)
 
 		RequestedNodeObject := initResreq.Allocated
-
 		reqCPU := RequestedNodeObject.MilliCPU
 
 		reqMemory := RequestedNodeObject.Memory
@@ -67,9 +65,10 @@ func letsSee()  {
 
 	}
 		// what is dm list - you must reference it in the for loop
+		// the dom
 		for _, dmlist :=range domsharelist {
-
-			if reqCPU <= fairshareCpu {
+			// how will we access this reqCPU as it is a moving variable
+			if dmlist <= fairshareCpu {
 
 				allocatedCpu := fairshareCpu
 
@@ -81,17 +80,16 @@ func letsSee()  {
 				initalloccpulist = append(initalloccpulist, allocatedCpu)
 			}
 			// where else is allocated memory referenced
-
-			if allocated.Memory <= fairshareMemory {
+			if dmlist <= fairshareMemory {
 
 				allocatedMemory := fairshareMemory
 
-				initallocmemorylist = append(allocatedMemory)
+				initallocmemorylist := append(initallocmemorylist, allocatedMemory)
 			} else {
 
-				allocatedMemory := allocated.Memory
+				allocatedMemory := dmlist
 
-				initallocmemorylist = append(allocatedMemory)
+				initallocmemorylist = append(initallocmemorylist,allocatedMemory)
 
 			}
 		}
